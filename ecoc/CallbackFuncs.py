@@ -17,7 +17,7 @@ from gp import Consts
 from gp import Util, GTree
 from gp import GTreeNode
 from utils import gol
-
+import sys
 
 def debug_callback(gp_engine):
     genes = gol.get_val("genebank").genes
@@ -75,7 +75,7 @@ def logResultEveryGen_callback(gp_engine):
         print "="*65
         format_str = 'Gen' + ' '*12 + '%%-8s  %%-8s  %%-8%s %%-10%s   %%-10%s   %%-10%s'
         print( (format_str % ('s', 's', 's', 's')) % ('Max', 'Min', 'Avg', 'Best-Fscore', 'Best-Hamdist', 'Best-Accuracy'))
-    np.set_printoptions(threshold='nan') 
+    np.set_printoptions(threshold=sys.maxsize)
     # do in every generation
     best = gp_engine.getPopulation().bestRaw()
     bestMatrix , feature_list = TMConvertor.getMatrixDirectly_and_feature(best)
@@ -137,7 +137,7 @@ def checkAncients_callback(gp_engine):
                 node_parent.replaceChild(node, root_subtree)
             new_genome.processNodes()
 
-            # illegal ? 
+            # illegal ?
             # Actually, case #1 and case #2 may not happen
             Illegal = False
             ecocMatrix, feature_list = TMConvertor.getMatrixDirectly_and_feature(new_genome)
@@ -250,4 +250,3 @@ def printIndividuals_callback(gp_engine):
              n = count
              graph.add_subgraph(subg)
          graph.write(filename, prog='dot', format="jpeg")
-
