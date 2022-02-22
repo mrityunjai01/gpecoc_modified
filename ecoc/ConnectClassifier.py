@@ -13,6 +13,8 @@ import numpy as np
 
 from sklearn.naive_bayes import GaussianNB,BernoulliNB
 from sklearn.svm import LinearSVC
+from sklearn.linear_model import LogisticRegression
+from classifiers.random_classifier import RandomClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
@@ -23,7 +25,10 @@ class ConnectClassifier:
         self.sel_features = sel_features
         self.code_Matrix = np.array(codeMatrix)
         self.features_used_list = features_used_list
-        self.estimator = LinearSVC(random_state=0)
+
+        self.estimator = RandomClassifier()
+        # self.estimator = LogisticRegression()
+        # self.estimator = LinearSVC(random_state=0)
         # self.estimator = DecisionTreeClassifier(random_state=0)
         # self.estimator = GaussianNB()
         # self.estimator = BernoulliNB()

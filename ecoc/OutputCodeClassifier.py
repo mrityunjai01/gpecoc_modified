@@ -85,7 +85,7 @@ def _check_estimator(estimator):
 def _sigmoid_normalize(X):  # sigmoid
     X = (X+1)/2
     return (1 / (1 + np.exp(-X)))*2-1
-
+    
 
 class _ConstantPredictor(BaseEstimator):
     def fit(self, X, y):
@@ -190,7 +190,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
             output_y.append(pre)
         output_y = np.array(output_y).T
         if self.estimator_type == 'decision_function':
-            output_y = _sigmoid_normalize(output_y)  
+            output_y = _sigmoid_normalize(output_y)
         # get score and confusion matrix
         pred = self.get_distances(output_y, self.code_book_).argmin(axis=1)
         score, accuracy = self.calculateFScore(self.classes_[pred], valid_Y)
@@ -294,7 +294,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
             output_y.append(pre)
         output_y = np.array(output_y).T
         if self.estimator_type == 'decision_function':
-            output_y = _sigmoid_normalize(output_y)  
+            output_y = _sigmoid_normalize(output_y)
         # get score and confusion matrix
         pred = self.get_distances(output_y, self.code_book_).argmin(axis=1)
         score, accuracy = self.calculateFScore(self.classes_[pred], valid_Y)
@@ -400,7 +400,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
             output_y.append(pre)
         output_y = np.array(output_y).T
         if self.estimator_type == 'decision_function':
-            output_y = _sigmoid_normalize(output_y)  
+            output_y = _sigmoid_normalize(output_y)
         # get score
         pred = self.get_distances(output_y, self.code_book_, Weighted=True).argmin(axis=1)
         score, accuracy = self.calculateFScore(self.classes_[pred], test_Y)
@@ -452,7 +452,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
         Y = np.array(Y).T
 
         if self.estimator_type == 'decision_function':
-            Y = _sigmoid_normalize(Y)  
+            Y = _sigmoid_normalize(Y)
         pred = self.get_distances(Y, self.code_book_).argmin(axis=1)
         self.conMatrix = confusion_matrix(valid_Y, self.classes_[pred])
 
@@ -478,7 +478,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
             Y.append(pre)
         Y = np.array(Y).T
         if self.estimator_type == 'decision_function':
-            Y = _sigmoid_normalize(Y) 
+            Y = _sigmoid_normalize(Y)
         pred = self.get_distances(Y, self.code_book_, Weighted=True).argmin(axis=1)
         self.conMatrix = confusion_matrix(test_Y, self.classes_[pred])
         score, accuracy = self.calculateFScore(self.classes_[pred], test_Y)
