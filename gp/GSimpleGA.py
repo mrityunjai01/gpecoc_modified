@@ -67,12 +67,12 @@ from sys import stdout as sys_stdout
 from time import time
 from types import BooleanType
 
-from GTree import GTreeGP
-import Consts as Consts
-import Util as Util
-from FunctionSlot import FunctionSlot
-from GPopulation import GPopulation
-from GenomeBase import GenomeBase
+from .GTree import GTreeGP
+from . import Consts as Consts
+from . import Util as Util
+from .FunctionSlot import FunctionSlot
+from .GPopulation import GPopulation
+from .GenomeBase import GenomeBase
 
 # Platform dependant code for the Interactive Mode
 if sys_platform[:3] == "win":
@@ -369,7 +369,7 @@ class GSimpleGA:
       ret += "\tMutation Rate:\t\t %.2f\n" % (self.pMutation,)
       ret += "\tCrossover Rate:\t\t %.2f\n" % (self.pCrossover,)
       ret += "\tMinimax Type:\t\t %s\n" % (
-      Consts.minimaxType.keys()[Consts.minimaxType.values().index(self.minimax)].capitalize(),)
+      list(Consts.minimaxType.keys())[list(Consts.minimaxType.values()).index(self.minimax)].capitalize(),)
       ret += "\tElitism:\t\t %s\n" % (self.elitism,)
       ret += "\tElitism Replacement:\t %d\n" % (self.nElitismReplacement,)
       ret += "\tDB Adapter:\t\t %s\n" % (self.dbAdapter,)
@@ -399,7 +399,7 @@ class GSimpleGA:
       :param sort_type: the Sort Type
 
       """
-      if sort_type not in Consts.sortType.values():
+      if sort_type not in list(Consts.sortType.values()):
          Util.raiseException("sort type must be a Consts.sortType type", TypeError)
       self.internalPop.sortType = sort_type
 
@@ -457,7 +457,7 @@ class GSimpleGA:
       :param mtype: the minimax mode, from Consts.minimaxType
 
       """
-      if mtype not in Consts.minimaxType.values():
+      if mtype not in list(Consts.minimaxType.values()):
          Util.raiseException("Minimax must be maximize or minimize", TypeError)
       self.minimax = mtype
 
@@ -495,10 +495,10 @@ class GSimpleGA:
       function_set = {}
 
       main_dict = mod_main.__dict__
-      for obj, addr in main_dict.items():
+      for obj, addr in list(main_dict.items()):
          if obj[0:len(prefix)] == prefix:
             try:
-               op_len = addr.func_code.co_argcount
+               op_len = addr.__code__.co_argcount
             except:
                continue
             function_set[obj] = op_len
@@ -554,7 +554,7 @@ class GSimpleGA:
       #############
       delog.decache("mutate and check...")
       #################
-      for i in xrange(0, size_iterate, 2):
+      for i in range(0, size_iterate, 2):
          genomeMom = self.select(popID=self.currentGeneration)
          genomeDad = self.select(popID=self.currentGeneration)
 
@@ -599,11 +599,11 @@ class GSimpleGA:
          logging.debug("Doing elitism.")
          if self.getMinimax() == Consts.minimaxType["maximize"]:
             # in ecoc, max value is expected.
-            for i in xrange(self.nElitismReplacement):
+            for i in range(self.nElitismReplacement):
                if self.internalPop.bestRaw(i).score > newPop.bestRaw(i).score:
                   # check duplicate to avoid repeat indivadual
                   duplicate = False
-                  for j in xrange(len(newPop)-self.nElitismReplacement, len(newPop)):
+                  for j in range(len(newPop)-self.nElitismReplacement, len(newPop)):
                      if self.internalPop.bestRaw(i).score == newPop.bestRaw(j).score:
                         duplicate = True
                         break
@@ -611,7 +611,7 @@ class GSimpleGA:
                   newPop[len(newPop)-1-i] = newPop[i]
                   newPop[i] = self.internalPop.bestRaw(i)
          elif self.getMinimax() == Consts.minimaxType["minimize"]:
-            for i in xrange(self.nElitismReplacement):
+            for i in range(self.nElitismReplacement):
                if self.internalPop.bestRaw(i).score < newPop.bestRaw(i).score:
                   newPop[len(newPop)-1-i] = self.internalPop.bestRaw(i)
 
@@ -636,7 +636,7 @@ class GSimpleGA:
       #message = "Gen. %d (%.2f%%):" % (self.currentGeneration, percent)
       message = "Gen. %3d:     " % (self.currentGeneration)
       logging.info(message)
-      print message,
+      print(message, end=' ')
       sys_stdout.flush()
       self.internalPop.statistics()
       stat_ret = self.internalPop.printStats()
@@ -645,7 +645,7 @@ class GSimpleGA:
    def printTimeElapsed(self):
       """ Shows the time elapsed since the begin of evolution """
       total_time = time()-self.time_init
-      print "Total time elapsed: %.3f seconds." % total_time
+      print("Total time elapsed: %.3f seconds." % total_time)
       return total_time
 
    def evolve(self, freq_stats=0):
@@ -696,42 +696,42 @@ class GSimpleGA:
             if stopFlagTerminationCriteria:
                logging.debug("Evolution stopped by the Termination Criteria !")
                if freq_stats:
-                  print "\n\tEvolution stopped by Termination Criteria function !\n"
+                  print("\n\tEvolution stopped by Termination Criteria function !\n")
                break
 
             if stopFlagCallback:
                logging.debug("Evolution stopped by Step Callback function !")
                if freq_stats:
-                  print "\n\tEvolution stopped by Step Callback function !\n"
+                  print("\n\tEvolution stopped by Step Callback function !\n")
                break
 
             if self.interactiveMode:
                if sys_platform[:3] == "win":
                   if msvcrt.kbhit():
                      if ord(msvcrt.getch()) == Consts.CDefESCKey:
-                        print "Loading modules for Interactive Mode...",
+                        print("Loading modules for Interactive Mode...", end=' ')
                         logging.debug("Windows Interactive Mode key detected ! generation=%d", self.getCurrentGeneration())
                         from gp import Interaction
-                        print " done !"
+                        print(" done !")
                         interact_banner = "## Pyevolve v.%s - Interactive Mode ##\nPress CTRL-Z to quit interactive mode." % (__version__,)
                         session_locals = { "ga_engine"  : self,
                                            "population" : self.getPopulation(),
                                            "pyevolve"   : pyevolve,
                                            "it"         : Interaction}
-                        print
+                        print()
                         code.interact(interact_banner, local=session_locals)
 
                if (self.getInteractiveGeneration() >= 0) and (self.getInteractiveGeneration() == self.getCurrentGeneration()):
-                        print "Loading modules for Interactive Mode...",
+                        print("Loading modules for Interactive Mode...", end=' ')
                         logging.debug("Manual Interactive Mode key detected ! generation=%d", self.getCurrentGeneration())
                         from gp import Interaction
-                        print " done !"
+                        print(" done !")
                         interact_banner = "## Pyevolve v.%s - Interactive Mode ##" % (__version__,)
                         session_locals = { "ga_engine"  : self,
                                            "population" : self.getPopulation(),
                                            "pyevolve"   : pyevolve,
                                            "it"         : Interaction}
-                        print
+                        print()
                         code.interact(interact_banner, local=session_locals)
 
             if self.step(): break #exit if the number of generations is equal to the max. number of gens.
@@ -740,7 +740,7 @@ class GSimpleGA:
 
       except KeyboardInterrupt:
          logging.debug("CTRL-C detected, finishing evolution.")
-         if freq_stats: print "\n\tA break was detected, you have interrupted the evolution !\n"
+         if freq_stats: print("\n\tA break was detected, you have interrupted the evolution !\n")
 
       if freq_stats != 0:
          self.printStats()

@@ -11,7 +11,7 @@ import math
 from random import randint as rand_randint, choice as rand_choice
 from random import random as rand_random
 
-import Util
+from . import Util
 
 nodeType = {"TERMINAL" : 0, "NONTERMINAL": 1}
 
@@ -49,7 +49,7 @@ def GTreeGPCrossoverSinglePoint(genome, **args):
    momRandom = None
    dadRandom = None
    
-   for i in xrange(max_attempt):
+   for i in range(max_attempt):
 
       dadRandom = gDad.getRandomNode()
 
@@ -143,7 +143,7 @@ def _crossover_supplement_ecoc(raw_ind, coming_node):
       else: datas_temp_mid.append(_node_.getData())
 
    if len(nodes_redundancy)>0:
-      for i in xrange(len(nodes_redundancy)):
+      for i in range(len(nodes_redundancy)):
          nodes_redundancy[i].setData(class_lack[0])
          class_lack.remove(class_lack[0])
          if len(class_lack)<=0: break
@@ -160,7 +160,7 @@ def _crossover_supplement_ecoc(raw_ind, coming_node):
       while len(class_lack)>0:
          nodes_grow_candidate = nodes_grow_candidate_new
          nodes_grow_candidate_new = []
-         for i in xrange(len(nodes_grow_candidate)):
+         for i in range(len(nodes_grow_candidate)):
             if raw_ind.getNodeDepth(nodes_grow_candidate[i]) < max_depth:
                _newnode_old = GTreeNodeGP(nodes_grow_candidate[i].getData(), node_type=nodeType['TERMINAL'], parent=nodes_grow_candidate[i])
                _newnode_lack = GTreeNodeGP(class_lack[0], node_type=nodeType['TERMINAL'], parent=nodes_grow_candidate[i])
@@ -199,7 +199,7 @@ def NewGTreeGPCrossover_ECOC(genome, **args):
    momRandom = None
    dadRandom = None
 
-   for i in xrange(max_attempt):
+   for i in range(max_attempt):
 
       dadRandom = gDad.getRandomNode()
 

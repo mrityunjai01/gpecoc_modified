@@ -7,7 +7,7 @@ Adapter for ecoc and gene bank.
 # 
 """
 import numpy as np
-from utils import gol
+from .utils import gol
 
 
 # check is there exist any column being same with candidate column
@@ -35,7 +35,7 @@ def get_gene_from_bank(features, ecocmatrix, confusion_matrix, classes):
     DETA = 0.01  # to avoid zero divide when calculate acccuracy
     # calculate the errors
     errors = list()
-    for i in xrange(len(classes)):
+    for i in range(len(classes)):
         errors.append(1 - float(confusion_matrix[i, i]) / np.sum(confusion_matrix[i, :]))
     # select classes that have higher error than average.
     avg_errors = np.mean(errors)
@@ -72,24 +72,24 @@ def add_gene_from_matrix(features, ecocmatrix, output_y, valid_y, classes):
     t_num = np.zeros((ecocmatrix.shape[1], ecocmatrix.shape[0]))
     f_num = np.zeros((ecocmatrix.shape[1], ecocmatrix.shape[0]))
     classDict = dict((j, i) for i, j in enumerate(classes))
-    for i in xrange(len(output_y_bin)):
+    for i in range(len(output_y_bin)):
         ith_output = output_y_bin[i]
         ith_codeword = ecocmatrix[classDict[valid_y[i]]]
-        for j in xrange(len(ith_codeword)):
+        for j in range(len(ith_codeword)):
             if ith_codeword[j] == 0: continue
             if ith_codeword[j] == ith_output[j]:
                 t_num[j][classDict[valid_y[i]]] += 1
             else:
                 f_num[j][classDict[valid_y[i]]] += 1
     # calculate the accuracy of every base_classifier.
-    ests_accuracy = [float(sum(t_num[i]))/(sum(t_num[i])+sum(f_num[i])+DETA) for i in xrange(ecocmatrix.shape[1])]
+    ests_accuracy = [float(sum(t_num[i]))/(sum(t_num[i])+sum(f_num[i])+DETA) for i in range(ecocmatrix.shape[1])]
     # calculate accuracy of every base_classifier for every class.
     est_class_accuracies = []
-    for i in xrange(ecocmatrix.shape[1]):
-        est_class_accuracies.append([(i, j, float(t_num[i][j])/(t_num[i][j]+f_num[i][j]+DETA)) for j in xrange(ecocmatrix.shape[0])])
+    for i in range(ecocmatrix.shape[1]):
+        est_class_accuracies.append([(i, j, float(t_num[i][j])/(t_num[i][j]+f_num[i][j]+DETA)) for j in range(ecocmatrix.shape[0])])
     # save n column randomly to genebank
     n = np.ceil(ecocmatrix.shape[1] * ADD_PERCENT)
-    for i in xrange(int(n)):
+    for i in range(int(n)):
         import random
         est_index = random.randint(0, ecocmatrix.shape[1]-1)
         est_accuracy = ests_accuracy[est_index]

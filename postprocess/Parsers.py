@@ -8,7 +8,7 @@ Created on Thu Sep 28 19:41:12 2017
 
 import os
 
-from Base import Parser
+from .Base import Parser
 import Configurations as Configs
 from utils.dirtools import check_folder, del_dir_tree
 

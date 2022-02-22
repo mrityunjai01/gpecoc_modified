@@ -55,7 +55,7 @@ def raiseException(message, expt=None):
    if expt is None:
       raise Exception(message)
    else:
-      raise expt, message
+      raise expt(message)
 
 
 def cmp_individual_raw(a, b):
@@ -236,7 +236,7 @@ class Graph:
       
       :rtype: the list of nodes
       """
-      return self.adjacent.keys()
+      return list(self.adjacent.keys())
 
    def reset(self):
       """ Deletes all nodes of the graph """
@@ -247,11 +247,11 @@ class Graph:
       
       :param node: the node
       """
-      return self.adjacent[node].keys()
+      return list(self.adjacent[node].keys())
 
    def __getitem__(self, node):
       """ Returns the adjacent nodes of the node """
-      return self.adjacent[node].keys()
+      return list(self.adjacent[node].keys())
 
    def __repr__(self):
       ret =  "- Graph\n"

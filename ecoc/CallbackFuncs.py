@@ -10,13 +10,13 @@ import random
 import copy
 import numpy as np
 
-import utils.LegalityCheckers as LCheckers
+from . import utils.LegalityCheckers as LCheckers
 import gp.TreeMatrixConvertor as TMConvertor
-from ConnectClassifier import ConnectClassifier as CC
+from .ConnectClassifier import ConnectClassifier as CC
 from gp import Consts
 from gp import Util, GTree
 from gp import GTreeNode
-from utils import gol
+from .utils import gol
 import sys
 
 def debug_callback(gp_engine):
@@ -39,7 +39,7 @@ def logMiddleInfo_callback(gp_engine):
     sel_features = gol.get_val("sel_features")
 
     import sys
-    from utils import delog
+    from .utils import delog
     sys.stdout.write("logMiddleInfo...")
     genid = gp_engine.getCurrentGeneration()
 
@@ -64,7 +64,7 @@ def logMiddleInfo_callback(gp_engine):
 
 
 def delogPopulation_callback(gp_engine):
-    from utils import delog
+    from .utils import delog
     pop = gp_engine.getPopulation()
     genid = gp_engine.getCurrentGeneration()
     delog.logPopulations(genid,pop)
@@ -72,9 +72,9 @@ def delogPopulation_callback(gp_engine):
 
 def logResultEveryGen_callback(gp_engine):
     if gp_engine.getCurrentGeneration() ==0:
-        print "="*65
+        print("="*65)
         format_str = 'Gen' + ' '*12 + '%%-8s  %%-8s  %%-8%s %%-10%s   %%-10%s   %%-10%s'
-        print( (format_str % ('s', 's', 's', 's')) % ('Max', 'Min', 'Avg', 'Best-Fscore', 'Best-Hamdist', 'Best-Accuracy'))
+        print(( (format_str % ('s', 's', 's', 's')) % ('Max', 'Min', 'Avg', 'Best-Fscore', 'Best-Hamdist', 'Best-Accuracy')))
     np.set_printoptions(threshold=sys.maxsize)
     # do in every generation
     best = gp_engine.getPopulation().bestRaw()
@@ -83,21 +83,21 @@ def logResultEveryGen_callback(gp_engine):
     feature_index_list = list(feature_method_index[method] for method in feature_list)
     bestMatrix = np.ndarray.tolist(bestMatrix)
     bestMatrix.insert(0,feature_index_list)
-    print np.array(bestMatrix)
+    print(np.array(bestMatrix))
 
 
 
 
 def checkAncients_callback(gp_engine):
     if gp_engine.getCurrentGeneration() != 0: return
-    from utils import delog
+    from .utils import delog
     delog.decache("check first Gen...")
 
     begin = 0
     end = gol.get_val("populationSize")
     classes = gol.get_val("classes")
     population = gp_engine.getPopulation()
-    for i in xrange(begin, end):
+    for i in range(begin, end):
         genome = population[i]
         max_depth = genome.getParam("max_depth", None)
 
@@ -188,7 +188,7 @@ def printIndividuals_callback(gp_engine):
          graph = pydot.Dot(graph_type = "digraph")
          n = 0
          filename = 'Tree' + str(numnum) +'.jpg'
-         for i in xrange(begin, end) :
+         for i in range(begin, end) :
 
              arrays = []
              ind = population[i]
@@ -199,7 +199,7 @@ def printIndividuals_callback(gp_engine):
              tmp = None
              import __main__ as main_module
 
-             for i in xrange(len(ind.nodes_list)):
+             for i in range(len(ind.nodes_list)):
                 newnode = pydot.Node(str(count), style="filled")
                 count += 1
 
@@ -219,7 +219,7 @@ def printIndividuals_callback(gp_engine):
                     if hasattr(func, "representation"):
                         newnode.set_label(func.representation)
                     else:
-                        for j in xrange(0, len(classes)):
+                        for j in range(0, len(classes)):
                             locals()[classes[j]] = classes[j]
 
                         New_Ind.setRoot(ind.nodes_list[i])

@@ -1,7 +1,7 @@
 import random
 
-import Util
-from GenomeBase import GenomeBase, GTreeBase, GTreeNodeBase
+from . import Util
+from .GenomeBase import GenomeBase, GTreeBase, GTreeNodeBase
 
 
 nodeType = {"TERMINAL" : 0, "NONTERMINAL": 1}
@@ -146,9 +146,9 @@ def buildGTreeGPGrow(ga_engine, depth, max_depth):
    else:
       # Do not generate degenerative trees 
       if depth == 0:
-         random_node = random.choice(gp_function_set.keys())
+         random_node = random.choice(list(gp_function_set.keys()))
       else:
-         fchoice = random.choice([gp_function_set.keys(), gp_terminals])
+         fchoice = random.choice([list(gp_function_set.keys()), gp_terminals])
          random_node = random.choice(fchoice)
 
       if random_node in gp_terminals:
@@ -157,7 +157,7 @@ def buildGTreeGPGrow(ga_engine, depth, max_depth):
          n = GTreeNodeGP(random_node, nodeType["NONTERMINAL"])
 
    if n.getType() == nodeType["NONTERMINAL"]:
-      for i in xrange(gp_function_set[n.getData()]):
+      for i in range(gp_function_set[n.getData()]):
          child = buildGTreeGPGrow(ga_engine, depth+1, max_depth)
          child.setParent(n)
          n.addChild(child)
@@ -184,11 +184,11 @@ def buildGTreeGPFull(ga_engine, depth, max_depth):
       n = GTreeNodeGP(random_terminal, nodeType["TERMINAL"])
       return n
    else:
-      random_oper = random.choice(gp_function_set.keys())
+      random_oper = random.choice(list(gp_function_set.keys()))
       n = GTreeNodeGP(random_oper, nodeType["NONTERMINAL"])
 
    if n.getType() == nodeType["NONTERMINAL"]:
-      for i in xrange(gp_function_set[n.getData()]):
+      for i in range(gp_function_set[n.getData()]):
          child = buildGTreeGPFull(ga_engine, depth+1, max_depth)
          child.setParent(n)
          n.addChild(child)

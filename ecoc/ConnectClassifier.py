@@ -6,8 +6,8 @@ Created on Sat Jan 14 20:47:46 2017
 @author: hanrui
 """
 
-from utils import gol
-from OutputCodeClassifier import OutputCodeClassifier
+from .utils import gol
+from .OutputCodeClassifier import OutputCodeClassifier
 
 import numpy as np
 
@@ -17,7 +17,7 @@ from sklearn.linear_model import LogisticRegression
 from classifiers.random_classifier import RandomClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
-
+from STMPyramid.utils.crossval import model_cv
 
 class ConnectClassifier:
 
@@ -26,7 +26,7 @@ class ConnectClassifier:
         self.code_Matrix = np.array(codeMatrix)
         self.features_used_list = features_used_list
 
-        self.estimator = RandomClassifier()
+        self.estimator = model_cv()
         # self.estimator = LogisticRegression()
         # self.estimator = LinearSVC(random_state=0)
         # self.estimator = DecisionTreeClassifier(random_state=0)

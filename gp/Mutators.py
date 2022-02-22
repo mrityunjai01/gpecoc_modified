@@ -12,11 +12,11 @@ import copy
 from random import choice as rand_choice
 from random import randint as rand_randint, gauss as rand_gauss, uniform as rand_uniform
 
-import GTreeNode
-import Util
+from . import GTreeNode
+from . import Util
 
 from utils import gol
-import TreeMatrixConvertor as TMConverter
+from . import TreeMatrixConvertor as TMConverter
 from utils import LegalityCheckers as LC
 
 
@@ -46,7 +46,7 @@ def GTreeGPMutatorOperation(genome, **args):
 
    if mutations < 1.0:
       mutations = 0
-      for i in xrange(len(genome)):
+      for i in range(len(genome)):
          if Util.randomFlipCoin(args["pmut"]):
             mutations += 1
             rand_node = genome.getRandomNode()
@@ -56,7 +56,7 @@ def GTreeGPMutatorOperation(genome, **args):
             else:
                op_len = gp_function_set[rand_node.getData()]
                fun_candidates = []
-               for o, l in gp_function_set.items():
+               for o, l in list(gp_function_set.items()):
                   if l==op_len:
                      fun_candidates.append(o)
 
@@ -66,7 +66,7 @@ def GTreeGPMutatorOperation(genome, **args):
                term_operator = rand_choice(fun_candidates)
             rand_node.setData(term_operator)
    else: 
-      for it in xrange(int(round(mutations))):
+      for it in range(int(round(mutations))):
          rand_node = genome.getRandomNode()
          assert rand_node is not None
          if rand_node.getType() == nodeType["TERMINAL"]:
@@ -74,7 +74,7 @@ def GTreeGPMutatorOperation(genome, **args):
          else:
             op_len = gp_function_set[rand_node.getData()]
             fun_candidates = []
-            for o, l in gp_function_set.items():
+            for o, l in list(gp_function_set.items()):
                if l==op_len:
                   fun_candidates.append(o)
 
@@ -131,7 +131,7 @@ def DIYGTreeGPMutatorSubtree(genome, **args):
       # if any class not included in the terminal nodes.
       labels = set(classes)
       nums = []
-      for i in xrange(len(ind.nodes_list)):
+      for i in range(len(ind.nodes_list)):
          if ind.nodes_list[i].getType() == nodeType["TERMINAL"]:
             labels = labels - set(ind.nodes_list[i].getData())
             nums.append(i)
@@ -140,13 +140,13 @@ def DIYGTreeGPMutatorSubtree(genome, **args):
       if len(nums) >= len(classes) :
          # substatute randomly
          while len(labels):
-            for j in xrange(len(labels)):
+            for j in range(len(labels)):
                slice = random.sample(nums, 1) 
                ind.nodes_list[slice[0]].setData(labels[j])
             # if any class not included in the terminal nodes.
             labels = set(classes)
             nums = []
-            for i in xrange(len(ind.nodes_list)):
+            for i in range(len(ind.nodes_list)):
                if ind.nodes_list[i].getType() == nodeType["TERMINAL"]:
                   labels = labels - set(ind.nodes_list[i].getData())
                   nums.append(i)

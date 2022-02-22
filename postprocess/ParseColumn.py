@@ -8,7 +8,7 @@ Created on 2018-05-08 10:17
 """
 import os
 
-from Base import Parser
+from .Base import Parser
 from utils.stack import Stack
 import Configurations as Configs
 from utils.dirtools import check_folder, del_dir_tree

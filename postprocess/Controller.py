@@ -5,7 +5,7 @@ Created on Thu Sep 28 19:51:46 2017
 @author: Shone
 """
 
-import Parsers, ParseColumn
+from . import Parsers, ParseColumn
 
 from utils.stack import Stack
 

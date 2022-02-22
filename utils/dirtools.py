@@ -19,15 +19,15 @@ def del_dir_tree(path):
     if os.path.isfile(path):
         try:
             os.remove(path)
-        except Exception, e:
+        except Exception as e:
             #pass
-            print e
+            print(e)
     elif os.path.isdir(path):
         for item in os.listdir(path):
             itempath = os.path.join(path, item)
             del_dir_tree(itempath)
         try:
             os.rmdir(path)   # 
-        except Exception, e:
+        except Exception as e:
             #pass
-            print e
+            print(e)

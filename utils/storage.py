@@ -8,7 +8,7 @@ Created on 2018/1/2 12:02
 """
 import os
 import numpy as np
-import cPickle as pickle
+import pickle as pickle
 from utils import dirtools
 from utils import gol
 

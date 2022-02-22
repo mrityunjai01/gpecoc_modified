@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # float /
 
-from __future__ import division
+
 from sklearn.metrics import confusion_matrix
 from sklearn.utils.validation import check_is_fitted
 from sklearn.base import MetaEstimatorMixin
@@ -12,14 +12,14 @@ from sklearn.base import BaseEstimator, ClassifierMixin, clone
 import numpy as np
 import warnings
 import copy, random
-import utils.LegalityCheckers as LC
+from . import utils.LegalityCheckers as LC
 
 from ecoc.Distances import corrected_euclidean_distances, \
     weighting_corrected_euclidean_distances, \
     weighting_euclidean_distances, get_weights, euclidean_distances
 from ecoc.Utils import get_gene_from_bank, add_gene_from_matrix, update_referred_times
-from utils import gol, delog
-from utils.storage import Storager
+from .utils import gol, delog
+from .utils.storage import Storager
 
 
 
@@ -162,7 +162,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
         if new_estimator is None:
             # training
             extend_column = np.array([column[classes_index[train_y[i]]]
-                                for i in xrange(train_x.shape[0])], dtype=np.int)
+                                for i in range(train_x.shape[0])], dtype=np.int)
             new_estimator = corrected_fit_binary(self.estimator,
                                 train_x[:, sel_features[feature]], extend_column)
             self.storager.save_estimator_train(new_estimator)
@@ -178,7 +178,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
         check_is_fitted(self, 'estimators_')
         # try to restore output from cache
         output_y = []
-        for i in xrange(len(self.estimators_)):
+        for i in range(len(self.estimators_)):
             _column = self.code_book_[:, i]
             _features = feature_method_index[features_used_list[i]]
             self.storager.setfeaturecode(sel_features[_features], _column)
@@ -207,17 +207,17 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
         self.infos_evaluations.insert(len(self.infos_evaluations), self.conMatrix)
 
         # adding column
-        temp_features_name = dict((c, i) for (i, c) in feature_method_index.items())
+        temp_features_name = dict((c, i) for (i, c) in list(feature_method_index.items()))
         add_counter = 0
         while True:
-            features_digit = [feature_method_index[features_used_list[i]] for i in xrange(self.code_book_.shape[1])]
+            features_digit = [feature_method_index[features_used_list[i]] for i in range(self.code_book_.shape[1])]
             add_fcol = get_gene_from_bank(features_digit, self.code_book_, self.conMatrix, self.classes_)
             if add_fcol is not None:
                 # prepare new_ecocmatrix and output_y
                 new_ecocmatrix = np.hstack((self.code_book_, np.array([add_fcol[1:]]).transpose()))
                 # reconstruct the output_y because they can not be sigmoid respectively
                 new_y = []
-                for i in xrange(len(self.estimators_)):
+                for i in range(len(self.estimators_)):
                     _column = self.code_book_[:, i]
                     _features = feature_method_index[features_used_list[i]]
                     self.storager.setfeaturecode(sel_features[_features], _column)
@@ -270,7 +270,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
                 break
 
         # save good column into genebank
-        features_digit = [feature_method_index[features_used_list[i]] for i in xrange(self.code_book_.shape[1])]
+        features_digit = [feature_method_index[features_used_list[i]] for i in range(self.code_book_.shape[1])]
         add_gene_from_matrix(features_digit, self.code_book_, output_y, valid_Y, self.classes_)
         return score, accuracy, self.infos_evaluations
 
@@ -283,7 +283,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
         feature_method_index = gol.get_val("feature_method_index")
         # try to restore output from cache
         output_y = []
-        for i in xrange(len(self.estimators_)):
+        for i in range(len(self.estimators_)):
             _column = self.code_book_[:, i]
             _features = feature_method_index[features_used_list[i]]
             self.storager.setfeaturecode(sel_features[_features], _column)
@@ -309,17 +309,17 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
         self.infos_evaluations.insert(len(self.infos_evaluations), self.conMatrix)
 
         # adding column
-        temp_features_name = dict((c, i) for i, c in feature_method_index.items())
+        temp_features_name = dict((c, i) for i, c in list(feature_method_index.items()))
         add_counter = 0
         while True:
-            features_digit = [feature_method_index[features_used_list[i]] for i in xrange(self.code_book_.shape[1])]
+            features_digit = [feature_method_index[features_used_list[i]] for i in range(self.code_book_.shape[1])]
             add_fcol = get_gene_from_bank(features_digit, self.code_book_, self.conMatrix, self.classes_)
             if add_fcol is not None:
                 # prepare new_ecocmatrix and output_y
                 new_ecocmatrix = np.hstack((self.code_book_, np.array([add_fcol[1:]]).transpose()))
                 # reconstruct the output_y because they can not be sigmoid respectively
                 new_y = []
-                for i in xrange(len(self.estimators_)):
+                for i in range(len(self.estimators_)):
                     _column = self.code_book_[:, i]
                     _features = feature_method_index[features_used_list[i]]
                     self.storager.setfeaturecode(sel_features[_features], _column)
@@ -383,13 +383,13 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
             if est is None:
                 # need training
                 extend_column = np.array([_column[classes_index[final_train_y[i]]]
-                                    for i in xrange(final_train_x.shape[0])], dtype=np.int)
+                                    for i in range(final_train_x.shape[0])], dtype=np.int)
                 est = corrected_fit_binary(self.estimator, final_train_x[:, sel_features[_features]], extend_column)
                 self.storager.save_estimator_test(est)
             self.estimators_.append(est)
         # predicting because different training set, try to restore output from cache.
         output_y = []
-        for i in xrange(len(self.estimators_)):
+        for i in range(len(self.estimators_)):
             _column = self.code_book_[:, i]
             _features = feature_method_index[features_used_list[i]]
             self.storager.setfeaturecode(sel_features[_features], _column)
@@ -441,7 +441,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
         feature_method_index = gol.get_val("feature_method_index")
 
         Y = []
-        for i in xrange(len(self.estimators_)):
+        for i in range(len(self.estimators_)):
             self.storager.setfeaturecode(sel_features[feature_method_index[features_used_list[i]]], self.code_book_[:, i])
             pre = self.storager.load_prediction_valid()
             if pre is None:
@@ -472,7 +472,7 @@ class OutputCodeClassifier(BaseEstimator, ClassifierMixin, MetaEstimatorMixin):
         check_is_fitted(self, 'estimators_')
 
         Y = []
-        for i in xrange(len(self.estimators_)):
+        for i in range(len(self.estimators_)):
             pre = corrected_predict_binary(self.estimators_[i],
                                                test_X[:, sel_features[feature_method_index[features_used_list[i]]]])
             Y.append(pre)

@@ -4,7 +4,7 @@
 # there are some operation methods
 '''
 
-from utils import gol
+from .utils import gol
 
 # there is hard code in Crossover module
 # self-defined operation method, prefix "Operation" is necessary
@@ -12,7 +12,7 @@ def Operation_F1(a, b):
     features = gol.get_val("feature_method")
     a = list(a)
     b = list(b)
-    for i in xrange(len(features)):
+    for i in range(len(features)):
         if features[i] in a:
             a.remove(features[i])
         if features[i] in b:
@@ -27,7 +27,7 @@ def Operation_F2(a, b):
     features = gol.get_val("feature_method")
     a = list(a)
     b = list(b)
-    for i in xrange(len(features)):
+    for i in range(len(features)):
         if features[i] in a:
             a.remove(features[i])
         if features[i] in b:
@@ -43,7 +43,7 @@ def Operation_F3(a, b):
     features = gol.get_val("feature_method")
     a = list(a)
     b = list(b)
-    for i in xrange(len(features)):
+    for i in range(len(features)):
         if features[i] in a:
             a.remove(features[i])
         if features[i] in b:
@@ -59,7 +59,7 @@ def Operation_F4(a, b):
     features = gol.get_val("feature_method")
     a = list(a)
     b = list(b)
-    for i in xrange(len(features)):
+    for i in range(len(features)):
         if features[i] in a:
             a.remove(features[i])
         if features[i] in b:

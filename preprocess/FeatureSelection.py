@@ -61,7 +61,7 @@ class FeatureSel():
     def _save_cache(self, cache_path):
         self.makedir_for_cache(cache_path)
         f = file(cache_path, 'w')
-        for (k, v) in self.sel_features.iteritems():
+        for (k, v) in self.sel_features.items():
             f.write(str(k))
             # seperator between methods and selected features
             f.write("::")
@@ -101,7 +101,7 @@ class FeatureSel():
 
         """
         self.fused = []
-        for v in self.sel_features.itervalues():
+        for v in self.sel_features.values():
             self.fused += v.tolist()
         self.fused = np.unique(self.fused)
         return self.fused

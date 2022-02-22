@@ -6,20 +6,20 @@ Created on Fri Sep 22 11:00:23 2017
 """
 import numpy as np
 import gp.TreeMatrixConvertor as TMConvertor
-from utils import gol
+from .utils import gol
 from scipy.spatial import distance
-from ConnectClassifier import ConnectClassifier as CC
+from .ConnectClassifier import ConnectClassifier as CC
 from sklearn.metrics.pairwise import euclidean_distances
-from DataComplexity import means_complexity
-from DataComplexity import information_gain
-from DataComplexity import information_gain_ratio
-from DataComplexity import information_entropy
+from .DataComplexity import means_complexity
+from .DataComplexity import information_gain
+from .DataComplexity import information_gain_ratio
+from .DataComplexity import information_entropy
 
 def eval_func_test(chromosome):
     """
     # calculate fscore
     """
-    print type(chromosome)
+    print(type(chromosome))
     None
 
 
@@ -84,8 +84,8 @@ def eval_func_hamdist(chromosome):
     EcocMatrix, features_used_list = TMConvertor.getMatrixDirectly_and_feature(chromosome)
     classes = gol.get_val("classes")
     dist = 0
-    for i in xrange(len(EcocMatrix)):
-        for j in xrange(i+1, len(EcocMatrix)):
+    for i in range(len(EcocMatrix)):
+        for j in range(i+1, len(EcocMatrix)):
             dist += distance.hamming(EcocMatrix[i], EcocMatrix[j])
     num = len(classes)*(len(classes)-1)/2
     dist /= num

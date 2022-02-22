@@ -25,10 +25,10 @@ def get_weights(valid_output_y, ecocmatrix, valid_y):
     t_num = np.zeros((ecocmatrix.shape[1], ecocmatrix.shape[0]))
     f_num = np.zeros((ecocmatrix.shape[1], ecocmatrix.shape[0]))
     classDict = dict((j, i) for i, j in enumerate(np.unique(np.sort(valid_y))))
-    for i in xrange(len(output_y_bin)):
+    for i in range(len(output_y_bin)):
         ith_output = output_y_bin[i]
         ith_codeword = ecocmatrix[classDict[valid_y[i]]]
-        for j in xrange(len(ith_codeword)):
+        for j in range(len(ith_codeword)):
             if ith_codeword[j] == 0: continue
             if ith_codeword[j] == ith_output[j]:
                 t_num[j][classDict[valid_y[i]]] += 1
@@ -36,7 +36,7 @@ def get_weights(valid_output_y, ecocmatrix, valid_y):
                 f_num[j][classDict[valid_y[i]]] += 1
     # calculate the accuracy of every base_classifier.
     ests_accuracy = [float(sum(t_num[i])) / (sum(t_num[i]) + sum(f_num[i]) + DETA) for i in
-                     xrange(ecocmatrix.shape[1])]
+                     range(ecocmatrix.shape[1])]
     # get weights
     weights = []
     for acc in ests_accuracy:
@@ -57,8 +57,8 @@ def corrected_euclidean_distances(X, Y):
     X, Y = check_pairwise_arrays(X, Y)
     distances = safe_sparse_dot(X, Y.T, dense_output=True)
     distances *= -2
-    for i in xrange(X.shape[0]):  # for each sample
-        for j in xrange(Y.shape[0]):  # calculate the dist between the sample and every base classifier
+    for i in range(X.shape[0]):  # for each sample
+        for j in range(Y.shape[0]):  # calculate the dist between the sample and every base classifier
             row_x = np.copy(X[i])
             row_y = np.copy(Y[j])
             row_x[row_y == 0] = 0
@@ -88,7 +88,7 @@ def weighting_euclidean_distances(X, Y, weights):
     for pre_vector in X:
         dists = []
         for codeword in Y:
-            d1 = sum([abs(codeword[i])*weights[i]*(pre_vector[i]-codeword[i])*(pre_vector[i]-codeword[i]) for i in xrange(len(codeword))])
+            d1 = sum([abs(codeword[i])*weights[i]*(pre_vector[i]-codeword[i])*(pre_vector[i]-codeword[i]) for i in range(len(codeword))])
             dists.append(d1)
         distances.append(dists)
     distances = np.array(distances)
@@ -111,8 +111,8 @@ def weighting_corrected_euclidean_distances(X, Y, weights):
     for pre_vector in X:
         dists = []
         for codeword in Y:
-            d1 = sum([abs(codeword[i])*weights[i]*(pre_vector[i]-codeword[i])*(pre_vector[i]-codeword[i]) for i in xrange(len(codeword))])
-            d2 = sum([abs(codeword[i])*weights[i] for i in xrange(len(codeword))])
+            d1 = sum([abs(codeword[i])*weights[i]*(pre_vector[i]-codeword[i])*(pre_vector[i]-codeword[i]) for i in range(len(codeword))])
+            d2 = sum([abs(codeword[i])*weights[i] for i in range(len(codeword))])
             dists.append(d1/d2)
         distances.append(dists)
     distances = np.array(distances)

@@ -10,8 +10,8 @@ import numpy as np
 import Configurations as Configs
 
 from preprocess import DataLoader, FeatureSelection
-from utils import gol
-from utils import genebank as gbank
+from .utils import gol
+from .utils import genebank as gbank
 
 """
 # init all thing

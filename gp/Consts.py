@@ -159,11 +159,11 @@ GA Engine constants (:class:`GSimpleGA.GSimpleGA`)
 """
 import logging
 
-import Crossovers
-import Mutators
-import Scaling
-import Selectors
-import Initializators
+from . import Crossovers
+from . import Mutators
+from . import Scaling
+from . import Selectors
+from . import Initializators
 
 # module Consts
 CDefLogFile = "pyevolve.log"

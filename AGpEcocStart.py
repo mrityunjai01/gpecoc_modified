@@ -4,16 +4,16 @@
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
 
-import Configurations as Configs
-import utils.gol as gol
-import ecoc.CallbackFuncs as CB
-import ecoc.EvaluateMethods as EM
-import ecoc.Initializator as Initializator
-import gp.TreeMatrixConvertor as TMConvertor
-from ecoc.ConnectClassifier import ConnectClassifier
-from ecoc.OperationFuncs import *
-from gp import Consts
-from gp import GSimpleGA, GTree
+from . import Configurations as Configs
+from . import utils.gol as gol
+from . import ecoc.CallbackFuncs as CB
+from . import ecoc.EvaluateMethods as EM
+from . import ecoc.Initializator as Initializator
+from . import gp.TreeMatrixConvertor as TMConvertor
+from .ecoc.ConnectClassifier import ConnectClassifier
+from .ecoc.OperationFuncs import *
+from .gp import Consts
+from .gp import GSimpleGA, GTree
 
 
 def main_run():
@@ -61,7 +61,7 @@ def main_run():
     ga.stepCallback += CB.logMiddleInfo_callback
     ga.stepCallback += CB.debug_callback
     
-    print "------------------------------------------------------"
+    print("------------------------------------------------------")
     
     ga(freq_stats=freq_Stats)
     best = ga.bestIndividual()
@@ -83,7 +83,7 @@ def main_run():
     infos_evaluations.insert(len(infos_evaluations), "dist: %f" % dist)
 
     for text in infos_evaluations:
-        print text
+        print(text)
 
 
 if __name__ == "__main__":

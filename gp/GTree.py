@@ -35,9 +35,9 @@ Classes
 """
 import random
 
-import Util
-from GenomeBase import GenomeBase, GTreeBase, GTreeNodeBase
-import Consts
+from . import Util
+from .GenomeBase import GenomeBase, GTreeBase, GTreeNodeBase
+from . import Consts
 
 try:
    import pydot
@@ -107,7 +107,7 @@ class GTreeGP(GenomeBase, GTreeBase):
       :param startNode: used to plot more than one individual 
       """
       if not HAVE_PYDOT:
-         print "You must install Pydot to use this feature !"
+         print("You must install Pydot to use this feature !")
          return
 
       count = startNode
@@ -116,7 +116,7 @@ class GTreeGP(GenomeBase, GTreeBase):
       tmp = None
       import __main__ as main_module
 
-      for i in xrange(len(self.nodes_list)):
+      for i in range(len(self.nodes_list)):
          newnode = pydot.Node(str(count), style="filled")
          count += 1
 
@@ -202,7 +202,7 @@ class GTreeGP(GenomeBase, GTreeBase):
          all_childs  = start_node.getChilds()
          str_buff += "(" + self.getPreOrderExpression(all_childs[0])
 
-         for index in xrange(1, len(all_childs)):
+         for index in range(1, len(all_childs)):
             child = all_childs[index]
             str_buff += ", " + self.getPreOrderExpression(child)
          str_buff += ")"
@@ -260,7 +260,7 @@ class GTreeGP(GenomeBase, GTreeBase):
             return -1
          
          tmp_self, tmp_other = stack_self.pop(), stack_other.pop()
-         if tmp_self.compare(tmp_other) <> 0:
+         if tmp_self.compare(tmp_other) != 0:
             return -1
 
          stack_self.extend(tmp_self.getChilds())
@@ -294,7 +294,7 @@ class GTreeGP(GenomeBase, GTreeBase):
 
       n = 0
       end_index = len(pop) if end==0 else end
-      for i in xrange(start, end_index):
+      for i in range(start, end_index):
          ind = pop[i]
          subg = pydot.Cluster("cluster_%d" % i, label="\"Ind. #%d - Score Raw/Fit.: %.4f/%.4f\"" % (i, ind.getRawScore(), ind.getFitnessScore()))
          n = ind.writeDotGraph(subg, n)
@@ -328,7 +328,7 @@ class GTreeGP(GenomeBase, GTreeBase):
 
       n = 0
       end_index = len(pop) if end==0 else end
-      for i in xrange(start, end_index):
+      for i in range(start, end_index):
          ind = pop[i]
          subg = pydot.Cluster("cluster_%d" % i, label="\"Ind. #%d - Score Raw/Fit.: %.4f/%.4f\"" % (i, ind.getRawScore(), ind.getFitnessScore()))
          n = ind.writeDotGraph(subg, n)

@@ -11,12 +11,12 @@ import time
 import shutil
 import sys
 
-import AGpEcocStart
-import Configurations as Configs
-from utils.stack import Stack
-from ecoc.OperationFuncs import *
-from postprocess import Controller
-from utils.dirtools import check_folder, del_dir_tree
+from . import AGpEcocStart
+from . import Configurations as Configs
+from .utils.stack import Stack
+from .ecoc.OperationFuncs import *
+from .postprocess import Controller
+from .utils.dirtools import check_folder, del_dir_tree
 
 
 def _agp_main_runner(dataName, aimFolder):
@@ -46,14 +46,14 @@ def _agp_main_runner(dataName, aimFolder):
 
 if __name__ == "__main__":
 
-    datasets = ["vertebral", "zoo"]
+    # datasets = ["vertebral", "zoo"]
     datasets = ["zoo"]
 
     # init queue
     experiments = list()
     for dataName in datasets:
         s = Stack()
-        for i in xrange(10):
+        for i in range(10):
             aimFolder = "hamm" + str(10 - i)
             s.push((dataName, aimFolder))
         experiments.append(s)
@@ -63,20 +63,20 @@ if __name__ == "__main__":
     for exp in experiments:
         (dataName, aimFolder) = exp.pop()
         p = mul.Process(target=_agp_main_runner, args=(dataName, aimFolder))
-        print dataName + " " + aimFolder + " begin"
+        print(dataName + " " + aimFolder + " begin")
         p.start()
         p_list.append(p)
 
     while True:
         time.sleep(5)
         index_remove = list()
-        for i in xrange(len(p_list)):
+        for i in range(len(p_list)):
             # do something when a process is over.
             if not p_list[i].is_alive():
                 if not experiments[i].isEmpty():
                     (dataName, aimFolder) = experiments[i].pop()
                     p = mul.Process(target=_agp_main_runner, args=(dataName, aimFolder))
-                    print dataName + " " + aimFolder + " begin"
+                    print(dataName + " " + aimFolder + " begin")
                     p.start()
                     p_list[i] = p
                 else:
@@ -96,6 +96,6 @@ if __name__ == "__main__":
         genid = genid + 5
     _rootp = Configs.root_path
     _rootp = os.path.join(_rootp, 'Results/' + Configs.version)
-    print "result parse begin"
+    print("result parse begin")
     Controller._parseRunner(_rootp, genids)
-    print "result parse end"
+    print("result parse end")

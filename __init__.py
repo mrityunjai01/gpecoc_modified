@@ -20,7 +20,7 @@ __author__ =  'Christian S. Perone'
 
 import sys
 import logging
-import gp.Consts as Consts
+from . import gp.Consts as Consts
 
 if sys.version_info[:2] < (2, 5):
    raise Exception("Python 2.5+ required, the version %s was found on your system !" % (sys.version_info[:2],))

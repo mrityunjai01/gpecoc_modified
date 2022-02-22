@@ -19,7 +19,7 @@ nodeType = {"TERMINAL": 0, "NONTERMINAL": 1}
 # and then use LegalityCheckers to delete illegal columns
 """
 def getMatrixDirectly_and_feature(ind):
-    import GTree
+    from . import GTree
     arrays = []
     feature = []
     prefixnum = 0
@@ -27,10 +27,10 @@ def getMatrixDirectly_and_feature(ind):
     classes = gol.get_val("classes")
     MaxDeapth = gol.get_val("maxDeap")
     New_Ind = GTree.GTreeGP()
-    for i in xrange(len(ind.nodes_list)):
+    for i in range(len(ind.nodes_list)):
         if ind.nodes_list[i].getType() == nodeType["NONTERMINAL"]:
             prefixnum = prefixnum + 1
-            for j in xrange(0, len(classes)):
+            for j in range(0, len(classes)):
                 locals()[classes[j]] = classes[j]
 
             New_Ind.setRoot(ind.nodes_list[i])
@@ -39,8 +39,8 @@ def getMatrixDirectly_and_feature(ind):
         else:
             arrays.append(list(ind.nodes_list[i].getData()))
       
-    for i in xrange(len(arrays)):
-        for j in xrange(len(features)):
+    for i in range(len(arrays)):
+        for j in range(len(features)):
             if features[j] in arrays[i]:
                 feature.append(features[j])
                 arrays[i].remove(features[j])
@@ -203,5 +203,5 @@ class CEM:
         if self.delete_flag == False:
             del self.matrix[0]
             self.delete_flag = True
-        return map(list, zip(*self.matrix))
+        return list(map(list, list(zip(*self.matrix))))
           

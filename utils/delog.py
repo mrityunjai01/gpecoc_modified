@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
-import gol
+from . import gol
 import sys
 import numpy as np
 
@@ -10,14 +10,14 @@ from gp.TreeMatrixConvertor import getMatrixDirectly_and_feature
 
 
 def deprint( tag , value ):
-    print "===%s====start====" %tag
-    print value
-    print "===%s=====end=====" %tag
+    print("===%s====start====" %tag)
+    print(value)
+    print("===%s=====end=====" %tag)
     
 
 def deprint_string(string):
     #None
-    print string
+    print(string)
     
 def decache(string):
     #None

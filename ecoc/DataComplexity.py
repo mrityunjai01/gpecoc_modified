@@ -8,7 +8,7 @@ Created on Sat Sep 23 20:18:16 2017
 
 import numpy as np
 from sklearn.metrics.pairwise import euclidean_distances
-from utils import gol
+from .utils import gol
 
 
 def information_gain_ratio(Y, classes, EcocMatrix):
@@ -20,11 +20,11 @@ def information_gain_ratio(Y, classes, EcocMatrix):
         num.append(np.sum(Y==c))
 
     gain_ratio = []
-    for k in xrange(EcocMatrix.shape[1]):
+    for k in range(EcocMatrix.shape[1]):
         # make preparations
         nums_left = list()   # a list contains the number of samples for each class in left branch
         nums_right = list()   # a list contains the number of samples for each class in right branch
-        for i in xrange(EcocMatrix.shape[0]):
+        for i in range(EcocMatrix.shape[0]):
             if EcocMatrix[i][k] == 1:
                 nums_left.append(num[i])
             elif EcocMatrix[i][k] == -1:
@@ -63,11 +63,11 @@ def information_gain(Y, classes, EcocMatrix):
         num.append(np.sum(Y==c))
 
     gain = []
-    for k in xrange(EcocMatrix.shape[1]):
+    for k in range(EcocMatrix.shape[1]):
         # make preparations
         nums_left = list()   # a list contains the number of samples for each class in left branch
         nums_right = list()   # a list contains the number of samples for each class in right branch
-        for i in xrange(EcocMatrix.shape[0]):
+        for i in range(EcocMatrix.shape[0]):
             if EcocMatrix[i][k] == 1:
                 nums_left.append(num[i])
             elif EcocMatrix[i][k] == -1:
@@ -104,11 +104,11 @@ def information_entropy(Y, classes, EcocMatrix):
         num.append(np.sum(Y==c))
 
     entropy = []
-    for k in xrange(EcocMatrix.shape[1]):
+    for k in range(EcocMatrix.shape[1]):
         # make preparations
         nums_left = list()   # a list contains the number of samples for each class in left branch
         nums_right = list()   # a list contains the number of samples for each class in right branch
-        for i in xrange(EcocMatrix.shape[0]):
+        for i in range(EcocMatrix.shape[0]):
             if EcocMatrix[i][k] == 1:
                 nums_left.append(num[i])
             elif EcocMatrix[i][k] == -1:
@@ -175,14 +175,14 @@ def fisher_complexity_old(column,trainX, trainY, sel_features, thisfeature):
     sigma3 = [0]*len(classes)
     fisher11 = 0; fisher12 = 0; fisher21 = 0; fisher22 = 0
     numleft = 0; numright = 0
-    num = [list(trainY).count(classes[i]) for i in xrange(len(classes))]
+    num = [list(trainY).count(classes[i]) for i in range(len(classes))]
 
     # which feature selection method?
     d = trainX[:, sel_features[feature_method_index[thisfeature]]]
 
     # in
-    for j in xrange(len(classes)):
-        for m in xrange(len(trainY)):
+    for j in range(len(classes)):
+        for m in range(len(trainY)):
             if (trainY[m] == classes[j]):
                 d3[j,:] += d[m,:]
         if (column[j] == 1):
@@ -193,7 +193,7 @@ def fisher_complexity_old(column,trainX, trainY, sel_features, thisfeature):
         sigma3[j] = np.var(d3[j])
 
 
-    for i in xrange(len(classes)):
+    for i in range(len(classes)):
         if (column[i] == 1):
             num[i] = float(num[i]) / numleft
             fisher12 += num[i] * sigma3[i]
@@ -201,8 +201,8 @@ def fisher_complexity_old(column,trainX, trainY, sel_features, thisfeature):
             num[i] = float(num[i]) / numright
             fisher22 += num[i] * sigma3[i]
 
-    for i in xrange(len(classes)):
-        for j in xrange(len(classes)):
+    for i in range(len(classes)):
+        for j in range(len(classes)):
             if (j > i):
                 if (column[i] == 1 and column[j] == 1):
                     fisher11 += num[i] * num[j] * (miu3[i] - miu3[j]) * (miu3[i] - miu3[j])
@@ -210,7 +210,7 @@ def fisher_complexity_old(column,trainX, trainY, sel_features, thisfeature):
                     fisher21 += num[i] * num[j] * (miu3[i] - miu3[j]) * (miu3[i] - miu3[j])
 
     # out
-    for j in xrange(len(classes)):
+    for j in range(len(classes)):
         if column[j] == 1:
             d1[:] += d3[j,:]
         elif column[j] == -1:
@@ -263,7 +263,7 @@ def means_complexity(Train_X, Train_Y, f_m_index, f_u_list, s_features, classes,
     Train_Y = np.array(Train_Y)
 
     estimators_complexity = []
-    for i in xrange(EcocMatrix.shape[1]):
+    for i in range(EcocMatrix.shape[1]):
         labels = dict()     # show classes marked as 1,-1 and 0. eg.labels['0']=['A','C']
         label_indexs = dict()
         ith_column = EcocMatrix[:, i]

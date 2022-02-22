@@ -11,9 +11,8 @@ from abc import ABCMeta, abstractmethod
 from utils.stack import Stack
 
 
-class Parser(object):
+class Parser(object, metaclass=ABCMeta):
 
-    __metaclass__ = ABCMeta
     __root__ = None
     __currentdataset__ = None
     __currentdir__ = None

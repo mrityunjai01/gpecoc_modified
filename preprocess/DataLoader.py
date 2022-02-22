@@ -24,7 +24,7 @@ def loadClasses(trainFile, validationFile, testFile):
     uniqueStrY = np.array([e for e in np.unique(_uniqueStrY) if e in np.unique(validationStrY)])
     np.sort(uniqueStrY)
     classes = list()
-    for i in xrange(len(uniqueStrY)):
+    for i in range(len(uniqueStrY)):
         ascii = ord('A') + i
         if(ascii>90):
             ascii += 6
@@ -90,7 +90,7 @@ def labelChecker(trainX, trainStrY, testX, testStrY):
     useful_label_unique = np.array([e for e in train_label_unique if e in test_label_unique ])
     if len(train_label_unique) > len(useful_label_unique) :
         useless_label = np.array([e for e in  (set(train_label_unique) - set(useful_label_unique))])
-        useless_index = np.array([i for i in xrange(len(trainStrY)) 
+        useless_index = np.array([i for i in range(len(trainStrY)) 
                                                 if trainStrY[i] in useless_label])                                     
         #delete rows
         trainStrY = np.delete(trainStrY,useless_index,0)
@@ -100,7 +100,7 @@ def labelChecker(trainX, trainStrY, testX, testStrY):
         delog.deprint_string("Data about labels above have been removed from training data.")
     if len(test_label_unique) > len(useful_label_unique) :
         useless_label = np.array([e for e in (set(test_label_unique) - set(useful_label_unique))])
-        useless_index = np.array([i for i in xrange(len(testStrY)) 
+        useless_index = np.array([i for i in range(len(testStrY)) 
                                                 if testStrY[i] in useless_label])                                    
         #delete rows
         testStrY = np.delete(testStrY,useless_index,0)
@@ -117,7 +117,7 @@ def str2alpha(trainStrY, validationStrY, testStrY):
     uniqueStrY = np.unique(trainStrY)
     np.sort(uniqueStrY)
     str2alpha_dict = dict()
-    for i in xrange(len(uniqueStrY)):
+    for i in range(len(uniqueStrY)):
         ascii = ord('A') + i
         if(ascii>90):
             ascii += 6
@@ -126,11 +126,11 @@ def str2alpha(trainStrY, validationStrY, testStrY):
     trainY = list()
     validationY = list()
     testY = list()
-    for i in xrange(len(trainStrY)):
+    for i in range(len(trainStrY)):
         trainY.append(str2alpha_dict[trainStrY[i]])
-    for k in xrange(len(validationStrY)):
+    for k in range(len(validationStrY)):
         validationY.append(str2alpha_dict[validationStrY[k]])
-    for j in xrange(len(testStrY)):
+    for j in range(len(testStrY)):
         testY.append(str2alpha_dict[testStrY[j]])
     
     trainY, validationY, testY = np.array(trainY),np.array(validationY),np.array(testY)

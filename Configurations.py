@@ -4,29 +4,29 @@ import getpass
 '''
 # Basic Configuration
 
-version: 
-  Must be changed every time you run the program, 
+version:
+  Must be changed every time you run the program,
   or data will be over written and become useless.
 
-dataName: 
+dataName:
   Used for debuging.
 
-aimFolder: 
+aimFolder:
   Used for debuging.
 
-generations: 
+generations:
   #generations for Genetic Programming.
 
-populationSize: 
+populationSize:
   populationSize for Genetic Programming.
 
-n_jobs: 
+n_jobs:
   setted to 1, don't change that.
 
-freq_stats: 
+freq_stats:
   setted to 1, don't change that.
 
-n_neighbors: 
+n_neighbors:
   hyper params for KNN, it will be used when you choose KNN as base classifier.
 
 mutationRate, crossoverRate:
@@ -42,7 +42,7 @@ root_path:
 '''
 
 
-version = "8.80"
+version = "8.92"
 
 dataName = "vertebral"
 
@@ -64,4 +64,4 @@ mutationRate = 0.1
 
 growMethod = "ramped"
 
-root_path = "D:\parallel\gpecoc1"
+root_path = "."
